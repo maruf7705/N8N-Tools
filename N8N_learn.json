@@ -1,0 +1,272 @@
+{
+  "name": "N8N learn",
+  "nodes": [
+    {
+      "parameters": {
+        "sendTo": "meglaceo@gmail.com",
+        "subject": "Hello Maruf!",
+        "emailType": "text",
+        "message": "Hello Megla, It's Nice to meet you . I am fine no need to worry",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        700,
+        40
+      ],
+      "id": "1b82c3e2-3199-4ef9-b597-d8c8ed89c2a5",
+      "name": "Gmail",
+      "webhookId": "a622b367-ef21-4ce0-a18d-2fb5c01c38c4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0tMRuQhfQ49EiPA6",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "height": 220,
+        "width": 260
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -400,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "6c8751d8-5c99-43af-b0a8-e5659c245135",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "You are a helpful , Intelligent email writer assistant .",
+        "options": {
+          "systemMessage": "=Your task is to customize an email template using the following data:\n\nFirst Name: {{ $json['First Name'] }}\nLast Name: {{ $json['Last Name'] }}\nPhone Number: {{ $json['Phone Number'] }}\nEmail: {{ $json.Email }}\nDesign Performance: {{ $json['Design performance'] }}\nCompany description: {{ $json['Company description'] }}\nTimeline: {{ $json.Timeline }}\n\nNo need to add an instruction message.\n-----\n\nHi {First Name},\n\nI loved reading about {something unique about their company description}. It looks like you're aiming for a {design performance} type of site and planning to get it done around {timeline}, right?\n\nJust to confirm — is this still your number? {Formatted Phone Number}\n\nThanks again,\nMaruf"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        800,
+        600
+      ],
+      "id": "69810b9b-a4e0-4984-ab71-7c16496fbcef",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-04-17",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        700,
+        780
+      ],
+      "id": "5be29786-a855-4b69-ae5f-06d0cb36d08e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "CB7hRngOKGgxBDW0",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "meglaceo@gmail.com",
+        "subject": "Re: Your onboarding From",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1400,
+        600
+      ],
+      "id": "045dd001-226f-45f8-9b03-6790138f9423",
+      "name": "Gmail1",
+      "webhookId": "a622b367-ef21-4ce0-a18d-2fb5c01c38c4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0tMRuQhfQ49EiPA6",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 60
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1180,
+        600
+      ],
+      "id": "c832be32-5222-4e25-a588-9a19b788580c",
+      "name": "Wait",
+      "webhookId": "cb1c82a0-40fd-4926-a639-06c50c71a9e7"
+    },
+    {
+      "parameters": {
+        "events": [
+          "BOOKING_CREATED"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.calTrigger",
+      "typeVersion": 2,
+      "position": [
+        340,
+        1380
+      ],
+      "id": "1758cec7-4467-4c01-98ef-1f3f7391eb35",
+      "name": "Cal.com Trigger",
+      "webhookId": "1d0d4200-2c9f-45d4-935b-fd08f8647ed9",
+      "credentials": {
+        "calApi": {
+          "id": "yqZrWN4MiYOSFe3h",
+          "name": "Learn Cal"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.attendees[0].email }}",
+        "subject": "=Re: Recent Meeting with  {{ $json.attendees[0].name }}",
+        "emailType": "text",
+        "message": "=Hey {{ $json.attendees[0].name }},\n\nJust saw you just booked a {{ $json.type }} call. Looking forward to learning more about you/the business. see you {{ $json.startTime.toDateTime().format('EEEE') }}\n\nThanks,\nMaruf",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        560,
+        1360
+      ],
+      "id": "0799a9a3-0b7d-4525-bad8-bb0888a3515a",
+      "name": "Gmail2",
+      "webhookId": "a622b367-ef21-4ce0-a18d-2fb5c01c38c4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "0tMRuQhfQ49EiPA6",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "team": "90181182387",
+        "space": "90184382911",
+        "folder": "90185098084",
+        "list": "901807734796",
+        "name": "={{ $('Cal.com Trigger').item.json.attendees[0].name }}",
+        "additionalFields": {
+          "status": "prospect"
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        780,
+        1360
+      ],
+      "id": "558f8fed-1377-45bb-92c9-7c23143df63f",
+      "name": "ClickUp",
+      "credentials": {
+        "clickUpOAuth2Api": {
+          "id": "taTazof4ObCmjEmf",
+          "name": "ClickUp account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail1": {
+      "main": [
+        []
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cal.com Trigger": {
+      "main": [
+        [
+          {
+            "node": "Gmail2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail2": {
+      "main": [
+        [
+          {
+            "node": "ClickUp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "246b078d-eee3-4251-b6bd-29b9d344ec0a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "803654d32c22ac1d3cbaf1ee2ed2bde97f9cba332ac43e117178c659ed22a8e4"
+  },
+  "id": "w5dseNYfc0jNr3MA",
+  "tags": []
+}
